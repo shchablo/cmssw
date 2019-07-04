@@ -5,7 +5,7 @@
  *  Abstract algorithmic class to compute Rec Hit
  *  form a RPC digi
  *
- *  \author M. Maggi -- INFN Bari
+ *  \author M. Maggi -- INFN Bari, Shchablo -- IPNL Lyon 
  */
 
 
@@ -18,6 +18,9 @@
 
 #include "RecoLocalMuon/RPCRecHit/src/RPCRollMask.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
+
+/* iRPC */
+#include "RecoLocalMuon/RPCRecHit/src/iRPCInfo.h"
 
 class RPCCluster;
 class RPCRoll;
@@ -60,5 +63,7 @@ class RPCRecHitBaseAlgo {
                        LocalPoint& Point,
                        LocalError& error,
                        float& time, float& timeErr) const = 0;
+ private:
+  iRPCInfo iInfo;
 };
 #endif
