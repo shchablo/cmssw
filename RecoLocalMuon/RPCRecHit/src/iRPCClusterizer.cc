@@ -55,9 +55,8 @@ iRPCClusterContainer iRPCClusterizer::doAction(const RPCDigiCollection::Range& d
   // Compute clusters parameters LR.
 	for(auto cl = clr.begin(); cl != clr.end(); ++cl)
     cl->compute(std::ref(info));
-	
   // Association between HR and LR.
-	clusters = association(info.isAND(), info.thrDeltaTimeMin(), info.thrDeltaTimeMax(), chr, clr);
+	clusters = association(info.isReturnOnlyAND(), info.thrDeltaTimeMin(), info.thrDeltaTimeMax(), chr, clr);
   chr.clear(); clr.clear();
   
   // Compute clusters parameters.
@@ -67,7 +66,8 @@ iRPCClusterContainer iRPCClusterizer::doAction(const RPCDigiCollection::Range& d
   //// Print data (test)	
   //std::cout << "\nCouple: " << clusters.size();	
 	//for(unsigned int i = 0; i < clusters.size(); i++) {
-	//	std::cout << "\n\nfirst: " << clusters.at(i).firstStrip() << " last: " << clusters.at(i).lastStrip() << " size: " << clusters.at(i).clusterSize() <<  " time: " << clusters.at(i).deltaTime();
+	//	std::cout << "\n\nfirst: " << clusters.at(i).firstStrip() << " last: " << clusters.at(i).lastStrip() << " size: " << clusters.at(i).clusterSize() 
+  //  <<  " time: " << clusters.at(i).deltaTime() << " position: " << clusters.at(i).y();
 	//	std::cout << "\nn: " <<  clusters.at(i).hits()->size() << "  ";
 	//	for(unsigned int j = 0; j < clusters.at(i).hits()->size(); j++)
 	//		std::cout << std::setprecision(4) << clusters.at(i).hits()->at(j).channel() << "|" << clusters.at(i).hits()->at(j).time() << " " << clusters.at(i).hits()->at(j).isHR() << "; ";

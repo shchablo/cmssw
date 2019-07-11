@@ -23,6 +23,7 @@
 #include "RecoLocalMuon/RPCRecHit/src/iRPCInfo.h"
 
 class RPCCluster;
+class iRPCCluster;
 class RPCRoll;
 class RPCDetId;
 
@@ -50,6 +51,12 @@ class RPCRecHitBaseAlgo {
   /// standard local recHit computation
   virtual bool compute(const RPCRoll& roll,
                        const RPCCluster& cl,
+                       LocalPoint& Point,
+                       LocalError& error,
+                       float& time, float& timeErr) const = 0;
+  
+  virtual bool compute(const RPCRoll& roll,
+                       iRPCCluster& cl,
                        LocalPoint& Point,
                        LocalError& error,
                        float& time, float& timeErr) const = 0;

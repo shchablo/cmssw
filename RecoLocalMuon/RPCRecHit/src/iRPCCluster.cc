@@ -69,7 +69,8 @@ float iRPCCluster::xD() { return hasX() ? std::pow((_lstrip-_fstrip),2)/12 : -1;
 
 iRPCHitContainer* iRPCCluster::hits() { return &_hits; }    
 
-void iRPCCluster::compute(iRPCInfo &info) { 
+void iRPCCluster::compute(iRPCInfo &info) 
+{ 
   
   _nHighTime = 0; _sumHighTime = 0; _sumHighTime2 = 0;
   _nLowTime = 0; _sumLowTime = 0; _sumLowTime2 = 0;

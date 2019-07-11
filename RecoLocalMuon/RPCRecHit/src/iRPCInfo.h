@@ -129,23 +129,23 @@ class iRPCInfo
 		  \brief Get type of output clusters. If true - only associated clusters. If false - associated&singleSide clusters. 
 			\return _isAND.
 		*/
-    bool isAND();
+    bool isReturnOnlyAND();
     /*!
 		  \brief Set type of output clusters. If true - only associated clusters. If false - associated&singleSide clusters. 
 			\param[in] is - true or false..
 		*/
-    void isAND(bool is);
+    void isReturnOnlyAND(bool is);
     
     /*!
 		  \brief Return true if need to use iRPC algorithm. 
 			\return _isUse.
 		*/
-    bool isUse();
+    bool isUseIRPCAlgorithm();
     /*!
 		  \brief Set true if need to use iRPC algorithm. 
 			\param[in] is - true or false.
 		*/
-    void isUse(bool is);
+    void isUseIRPCAlgorithm(bool is);
 
 	private:
     std::map<int, int> _HR; // !< map<channel, strip> for high radius.

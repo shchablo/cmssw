@@ -10,6 +10,8 @@
 #include "RecoLocalMuon/RPCRecHit/src/RPCClusterizer.h"
 #include "RecoLocalMuon/RPCRecHit/src/RPCMaskReClusterizer.h"
 
+#include "Geometry/RPCGeometry/interface/RPCRoll.h"
+
 /* iRPC */
 #include "RecoLocalMuon/RPCRecHit/src/iRPCClusterContainer.h"
 #include "RecoLocalMuon/RPCRecHit/src/iRPCCluster.h"
@@ -39,13 +41,13 @@ edm::OwnVector<RPCRecHit> RPCRecHitBaseAlgo::reconstruct(const RPCRoll& roll,
                                                          const RPCDigiCollection::Range& digiRange,
                                                          const RollMask& mask) {
   edm::OwnVector<RPCRecHit> result;
-  //if(iInfo.isUse() && roll.isIRPC()) {
   
-   iInfo.setThrTimeHR(10); iInfo.setThrTimeLR(10);
-   iInfo.setThrDeltaTimeMin(-35); iInfo.setThrDeltaTimeMax(30);
-   iInfo.isAND(true);
-   iInfo.isUse(true);
-  if(iInfo.isUse()) {
+  iInfo.setThrTimeHR(10); iInfo.setThrTimeLR(10);
+  iInfo.setThrDeltaTimeMin(-35); iInfo.setThrDeltaTimeMax(30);
+  iInfo.isReturnOnlyAND(true);
+  iInfo.isUseIRPCAlgorithm(true);
+  
+  if(iInfo.isUseIRPCAlgorithm() && roll.isIRPC()) {
     /* iRPC Clustering */
     iRPCClusterizer clizer;
     iRPCClusterContainer cls = clizer.doAction(digiRange, iInfo);
@@ -55,13 +57,11 @@ edm::OwnVector<RPCRecHit> RPCRecHitBaseAlgo::reconstruct(const RPCRoll& roll,
       LocalPoint point;
       float time = 0, timeErr = -1;
       
-      //// Call the compute method
-      //const bool OK = this->compute(roll, cl, point, tmpErr, time, timeErr);
-      //if (!OK) continue;
+      // Call the compute method
+      const bool OK = this->compute(roll, cl, point, tmpErr, time, timeErr);
+      if (!OK) continue;
 
       // Build a new pair of 1D rechit
-      time = cl.deltaTime();
-      timeErr = cl.deltaTimeRMS();
       const int firstClustStrip = cl.firstStrip();
       const int clusterSize = cl.clusterSize();
       RPCRecHit* recHit = new RPCRecHit(rpcId, cl.bx(), firstClustStrip, clusterSize, point, tmpErr);

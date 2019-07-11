@@ -63,8 +63,8 @@ float iRPCInfo::thrDeltaTimeMax() { return _thrDeltaTimeMax; }
 float iRPCInfo::speed() { return _speed; }
 void iRPCInfo::setSpeed(float speed) {_speed = speed;}
 
-bool iRPCInfo::isAND() { return _isAND; }
-void iRPCInfo::isAND(bool is) { _isAND = is; };
+bool iRPCInfo::isReturnOnlyAND() { return _isAND; }
+void iRPCInfo::isReturnOnlyAND(bool is) { _isAND = is; };
 
-bool iRPCInfo::isUse() { return _isUse; }
-void iRPCInfo::isUse(bool is) { _isUse = is; };
+bool iRPCInfo::isUseIRPCAlgorithm() { return _isUse; }
+void iRPCInfo::isUseIRPCAlgorithm(bool is) { _isUse = is; };
