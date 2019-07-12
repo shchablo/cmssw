@@ -31,8 +31,7 @@ class RPCRecHitStandardAlgo : public RPCRecHitBaseAlgo {
 				               LocalPoint& Point,
 				               LocalError& error,
                        float& time, float& timeErr) const override;
-
-
+  
   bool compute(const RPCRoll& roll,
                        const RPCCluster& cluster,
                        const float& angle,

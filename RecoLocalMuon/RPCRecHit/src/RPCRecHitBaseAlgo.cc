@@ -9,7 +9,6 @@
 #include "RecoLocalMuon/RPCRecHit/src/RPCCluster.h"
 #include "RecoLocalMuon/RPCRecHit/src/RPCClusterizer.h"
 #include "RecoLocalMuon/RPCRecHit/src/RPCMaskReClusterizer.h"
-
 #include "Geometry/RPCGeometry/interface/RPCRoll.h"
 
 /* iRPC */
@@ -17,22 +16,26 @@
 #include "RecoLocalMuon/RPCRecHit/src/iRPCCluster.h"
 #include "RecoLocalMuon/RPCRecHit/src/iRPCClusterizer.h"
 
+
 RPCRecHitBaseAlgo::RPCRecHitBaseAlgo(const edm::ParameterSet& config) {
   //  theSync = RPCTTrigSyncFactory::get()->create(config.getParameter<string>("tTrigMode"),
   //config.getParameter<ParameterSet>("tTrigModeConfig"));
   
-  /* iRPC Info */
-   //iInfo.isUse(config.getParameter<ParameterSet>("useiRPCClustering"));
-   //iInfo.isAND(config.getParameter<ParameterSet>("useiRPCAnd"));
-   //iInfo.setMapHR(config.getParameter<ParameterSet>("iRPCMapHR"));
-   //iInfo.setMapLR(config.getParameter<ParameterSet>("iRPCMapLR"));
-   //iInfo.setThrTimeHR(config.getParameter<ParameterSet>("iRPCThrHR"));
-   //iInfo.setThrTimeLR(config.getParameter<ParameterSet>("iRPCThrLR"));
-   //iInfo.setThrDeltaTimeMin(config.getParameter<ParameterSet>("iRPCThrMin"));
-   //iInfo.setThrDeltaTimeMax(config.getParameter<ParameterSet>("iRPCThrMax"));
-   //iInfo.setSpeed(config.getParameter<ParameterSet>("iRPCSpeed"));
-
-  
+   /* iRPC Info */
+   edm::ParameterSet iRPCParams = config.getParameter<edm::ParameterSet>("iRPCConfig");
+   // ---
+   iRPCConfig.isUseIRPCAlgorithm(iRPCParams.getParameter<bool>("useAlgorithm"));
+   iRPCConfig.isReturnOnlyAND(iRPCParams.getParameter<bool>("returnOnlyAND"));
+   iRPCConfig.setSpeed(iRPCParams.getParameter<double>("signalSpeed")); //  conversion to float
+   iRPCConfig.setThrTimeHR(iRPCParams.getParameter<double>("thrTimeHR")); // conversion to float
+   iRPCConfig.setThrTimeLR(iRPCParams.getParameter<double>("thrTimeLR")); //  conversion to float
+   iRPCConfig.setThrDeltaTimeMin(iRPCParams.getParameter<double>("thrDeltaTimeMin")); // conversion to float
+   iRPCConfig.setThrDeltaTimeMax(iRPCParams.getParameter<double>("thrDeltaTimeMax")); //  conversion to float
+   // test iRPC params
+   //std::cout << "use: " << iRPCConfig.isUseIRPCAlgorithm() << " and: " << iRPCConfig.isReturnOnlyAND() << " speed: " << iRPCConfig.speed() <<
+   //" thrHR: " << iRPCConfig.thrTimeHR() << " thrLR: " << iRPCConfig.thrTimeLR() << 
+   //" thrMin: " << iRPCConfig.thrDeltaTimeMin() <<  " thrMax: " <<  iRPCConfig.thrDeltaTimeMax() << std::endl;
+   // ---
 }
 
 // Build all hits in the range associated to the layerId, at the 1st step.
@@ -42,15 +45,10 @@ edm::OwnVector<RPCRecHit> RPCRecHitBaseAlgo::reconstruct(const RPCRoll& roll,
                                                          const RollMask& mask) {
   edm::OwnVector<RPCRecHit> result;
   
-  iInfo.setThrTimeHR(10); iInfo.setThrTimeLR(10);
-  iInfo.setThrDeltaTimeMin(-35); iInfo.setThrDeltaTimeMax(30);
-  iInfo.isReturnOnlyAND(true);
-  iInfo.isUseIRPCAlgorithm(true);
-  
-  if(iInfo.isUseIRPCAlgorithm() && roll.isIRPC()) {
+  if(iRPCConfig.isUseIRPCAlgorithm() && roll.isIRPC()) {
     /* iRPC Clustering */
     iRPCClusterizer clizer;
-    iRPCClusterContainer cls = clizer.doAction(digiRange, iInfo);
+    iRPCClusterContainer cls = clizer.doAction(digiRange, iRPCConfig);
     
     for ( auto cl : cls ) {
       LocalError tmpErr;

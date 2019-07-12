@@ -71,6 +71,6 @@ class RPCRecHitBaseAlgo {
                        LocalError& error,
                        float& time, float& timeErr) const = 0;
  private:
-  iRPCInfo iInfo;
+  iRPCInfo iRPCConfig;
 };
 #endif

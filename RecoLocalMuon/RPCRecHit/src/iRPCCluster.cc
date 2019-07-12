@@ -71,7 +71,6 @@ iRPCHitContainer* iRPCCluster::hits() { return &_hits; }
 
 void iRPCCluster::compute(iRPCInfo &info) 
 { 
-  
   _nHighTime = 0; _sumHighTime = 0; _sumHighTime2 = 0;
   _nLowTime = 0; _sumLowTime = 0; _sumLowTime2 = 0;
   _nDeltaTime = 0; _sumDeltaTime = 0; _sumDeltaTime2 = 0;

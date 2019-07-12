@@ -33,7 +33,8 @@ RPCRecHitProducer::RPCRecHitProducer(const ParameterSet& config):
                                               config.getParameter<ParameterSet>("recAlgoConfig"))},
   maskSource_(MaskSource::EventSetup), deadSource_(MaskSource::EventSetup)
 {
-  // Set verbose output
+  
+// Set verbose output
   produces<RPCRecHitCollection>();
 
   // Get masked- and dead-strip information
