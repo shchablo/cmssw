@@ -15,13 +15,13 @@ from RecoLocalMuon.RPCRecHit.rpcRecHits_cfi import rpcRecHits
 rpcRecHits = cms.EDProducer("RPCRecHitProducer",
                recAlgoConfig = cms.PSet(
                                  iRPCConfig = cms.PSet( # iRPC Algorithm
-                                   useAlgorithm = cms.bool(True), # useIRPCAlgorithm_iRPC: if true - use iRPC Algorithm;
-                                   returnOnlyAND = cms.bool(True), # returnOnlyAND_iRPC: if true algorithm will return only associated clusters;
-                                   thrTimeHR = cms.double(2), # [ns] thrTimeHR_iRPC: threshold for high radius clustering;
-                                   thrTimeLR = cms.double(2), # [ns] thrTimeLR_iRPC: threshold for low radius clustering;
-                                   thrDeltaTimeMin = cms.double(-30), # [ns] thrDeltaTimeMin_iRPC: min delta time threshold for association clusters between HR and LR;
-                                   thrDeltaTimeMax = cms.double(30), # [ns] thrDeltaTimeMax_iRPC: max delta time threshold for association clusters between HR and LR;
-                                   signalSpeed = cms.double(19.786302) # [cm/ns] signalSpeed_iRPC: speed of signal inside strip.
+                                   useAlgorithm = cms.bool(True), # useIRPCAlgorithm: if true - use iRPC Algorithm;
+                                   returnOnlyAND = cms.bool(True), # returnOnlyAND: if true algorithm will return only associated clusters;
+                                   thrTimeHR = cms.double(2), # [ns] thrTimeHR: threshold for high radius clustering;
+                                   thrTimeLR = cms.double(2), # [ns] thrTimeLR: threshold for low radius clustering;
+                                   thrDeltaTimeMin = cms.double(-30), # [ns] thrDeltaTimeMin: min delta time threshold for association clusters between HR and LR;
+                                   thrDeltaTimeMax = cms.double(30), # [ns] thrDeltaTimeMax: max delta time threshold for association clusters between HR and LR;
+                                   signalSpeed = cms.double(19.786302) # [cm/ns] signalSpeed: speed of signal inside strip.
                                  ),
                                ),
                recAlgo = cms.string('RPCRecHitStandardAlgo'),

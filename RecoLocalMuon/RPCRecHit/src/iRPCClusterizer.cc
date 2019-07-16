@@ -69,7 +69,7 @@ iRPCClusterContainer iRPCClusterizer::doAction(const RPCDigiCollection::Range& d
 
         // Clustering for HR and LR separate.
         std::thread thr(&iRPCClusterizer::clustering, this, info.thrTimeHR(), std::ref(it.second.first), std::ref(chr));
-        std::thread tlr(&iRPCClusterizer::clustering, this, info.thrTimeLR(), std::ref( it.second.second), std::ref(clr));
+        std::thread tlr(&iRPCClusterizer::clustering, this, info.thrTimeLR(), std::ref(it.second.second), std::ref(clr));
         thr.join(); tlr.join();
 
         // Compute clusters parameters HR.
