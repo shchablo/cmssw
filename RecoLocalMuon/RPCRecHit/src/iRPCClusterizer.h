@@ -1,5 +1,5 @@
 /*!
-\file 
+\file
 \brief File with definitions iRPCClusterizer class.
 \authors Shchablo Konstantin (IPNL-France) (shchablo@gmail.com)
 \version 1.0
@@ -12,10 +12,10 @@
 #define RecoLocalMuon_iRPCClusterizer_h
 
 /*!
-	\brief In this class defined functions to fulfillment clustering. 
-	\author Shchablo (IPNL-France) 
-	\version 1.0
-	\date May 2019
+    \brief In this class defined functions to fulfillment clustering.
+    \author Shchablo (IPNL-France)
+    \version 1.0
+    \date May 2019
 */
 /* iRPC */
 #include "iRPCClusterContainer.h"
@@ -27,47 +27,41 @@
 #include <vector>
 #include <utility>
 
-class iRPCClusterizer {
- 
-	public:
+class iRPCClusterizer 
+{
+    public:
 
- 		/*
-			\brief Constructor.
-		*/
-  	iRPCClusterizer();
- 		/*!
-			\brief Destructor.
-		*/
-  	~iRPCClusterizer();
-  	
- 		/*!
-			\brief The function of clustering hits from a single side of the chamber.
-			\param[in] thrTime - The threshold for time clustering between two hits (Chain checking of hits).
-			\param[out] clusters - Container of output clusters.
-			\return Fulfillment status.
-		*/
-		bool clustering(float thrTime, iRPCHitContainer &hits, iRPCClusterContainer &clusters);
-		
- 		/*!
-			\brief The function of the association of clusters from high radius and low radius radius.
-			\param[in] isAND - if true return only associated clusters. if false associated&singleSide clusters. 
-			\param[in] thrDeltaMin - Minimum time for difference between high and low radius. Related with the geometry of the chamber. 
-			\param[in] thrDeltaMax - Maximum time for difference between high and low radius. Related with the geometry of the chamber. 
-			\param[in] hr - Container of clusters correspond high radius of the chamber.
-			\param[in] lr - Container of clusters correspond low radius of the chamber.
-			\return Container of clusters.
-		*/
-    iRPCClusterContainer association(bool isAND, float thrDeltaMin,  float thrDeltaMax,
-                                     iRPCClusterContainer hr, iRPCClusterContainer lr); 
-		
-    /* CMSSW */
- 		/*!
-			\brief The action function.
-			\param[in] digiRange - simulated data.
-			\return Container of clusters.
-		*/
-		iRPCClusterContainer doAction(const RPCDigiCollection::Range& digiRange, iRPCInfo& info);
-		
+        /* \brief Constructor.*/
+        iRPCClusterizer();
+        /*! \brief Destructor. */
+        ~iRPCClusterizer();
+
+        /*!
+            \brief The function of clustering hits from a single side of the chamber.
+            \param[in] thrTime - The threshold for time clustering between two hits (Chain checking of hits).
+            \param[out] clusters - Container of output clusters.
+            \return Fulfillment status.
+        */
+        bool clustering(float thrTime, iRPCHitContainer &hits, iRPCClusterContainer &clusters);
+
+        /*!
+            \brief The function of the association of clusters from high radius and low radius radius.
+            \param[in] isAND - if true return only associated clusters. if false associated&singleSide clusters.
+            \param[in] thrDeltaMin - Minimum time for difference between high and low radius. Related with the geometry of the chamber.
+            \param[in] thrDeltaMax - Maximum time for difference between high and low radius. Related with the geometry of the chamber.
+            \param[in] hr - Container of clusters correspond high radius of the chamber.
+            \param[in] lr - Container of clusters correspond low radius of the chamber.
+            \return Container of clusters.
+        */
+        iRPCClusterContainer association(bool isAND, float thrDeltaMin,  float thrDeltaMax, iRPCClusterContainer hr, iRPCClusterContainer lr);
+
+        /* CMSSW */
+        /*!
+            \brief The action function.
+            \param[in] digiRange - simulated data.
+            \return Container of clusters.
+        */
+        iRPCClusterContainer doAction(const RPCDigiCollection::Range& digiRange, iRPCInfo& info);
 };
 
-#endif // RecoLocalMuon_iRPCClusterClusterizer_h 
+#endif // RecoLocalMuon_iRPCClusterClusterizer_h

@@ -1,44 +1,45 @@
 #ifndef RecoLocalMuon_RPCRecHitStandardAlgo_H
 #define RecoLocalMuon_RPCRecHitStandardAlgo_H
 
-/** \class RPCRecHitStandardAlgo
- *  Concrete implementation of RPCRecHitBaseAlgo.
- *
- *  \author M. Maggi -- INFN Bari
- */
+/* * \class RPCRecHitStandardAlgo
+*  Concrete implementation of RPCRecHitBaseAlgo.
+*
+*  \author M. Maggi -- INFN Bari, Shchablo - IPNL (France)
+*/
 
 #include "RecoLocalMuon/RPCRecHit/interface/RPCRecHitBaseAlgo.h"
 
-class RPCRecHitStandardAlgo : public RPCRecHitBaseAlgo {
- public:
-  /// Constructor
-  RPCRecHitStandardAlgo(const edm::ParameterSet& config):RPCRecHitBaseAlgo(config) {};
+class RPCRecHitStandardAlgo : public RPCRecHitBaseAlgo
+{
+    public:
+        /// Constructor
+        RPCRecHitStandardAlgo(const edm::ParameterSet& config):RPCRecHitBaseAlgo(config) {};
 
-  /// Destructor
-  ~RPCRecHitStandardAlgo() override {};
+        /// Destructor
+        ~RPCRecHitStandardAlgo() override {};
 
-  /// Pass the Event Setup to the algo at each event
-  void setES(const edm::EventSetup& setup) override {};
+        /// Pass the Event Setup to the algo at each event
+        void setES(const edm::EventSetup& setup) override {};
 
 
-  bool compute(const RPCRoll& roll,
-                       const RPCCluster& cluster,
-                       LocalPoint& point,
-                       LocalError& error,
-                       float& time, float& timeErr) const override;
-  bool compute(const RPCRoll& roll,
-				               iRPCCluster& cluster,
-				               LocalPoint& Point,
-				               LocalError& error,
-                       float& time, float& timeErr) const override;
-  
-  bool compute(const RPCRoll& roll,
-                       const RPCCluster& cluster,
-                       const float& angle,
-                       const GlobalPoint& globPos,
-                       LocalPoint& point,
-                       LocalError& error,
-                       float& time, float& timeErr) const override;
+        bool compute(const RPCRoll& roll,
+                        const RPCCluster& cluster,
+                        LocalPoint& point,
+                        LocalError& error,
+                        float& time, float& timeErr) const override;
+        bool compute(const RPCRoll& roll,
+                        iRPCCluster& cluster,
+                        LocalPoint& Point,
+                        LocalError& error,
+                        float& time, float& timeErr) const override;
+
+        bool compute(const RPCRoll& roll,
+                        const RPCCluster& cluster,
+                        const float& angle,
+                        const GlobalPoint& globPos,
+                        LocalPoint& point,
+                        LocalError& error,
+                        float& time, float& timeErr) const override;
 };
 #endif
 

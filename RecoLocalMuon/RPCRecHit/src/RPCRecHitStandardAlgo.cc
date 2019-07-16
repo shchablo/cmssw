@@ -17,9 +17,9 @@
 
 // First Step
 bool RPCRecHitStandardAlgo::compute(const RPCRoll& roll,
-				    const RPCCluster& cluster,
-				    LocalPoint& Point,
-				    LocalError& error,
+                    const RPCCluster& cluster,
+                    LocalPoint& Point,
+                    LocalError& error,
             float& time, float& timeErr)  const
 {
   // Get Average Strip position
@@ -68,54 +68,52 @@ bool RPCRecHitStandardAlgo::compute(const RPCRoll& roll,
 }
 
 bool RPCRecHitStandardAlgo::compute(const RPCRoll& roll,
-				    iRPCCluster& cluster,
-				    LocalPoint& Point,
-				    LocalError& error,
-            float& time, float& timeErr) const
+                                    iRPCCluster& cluster,
+                                    LocalPoint& Point,
+                                    LocalError& error,
+                                    float& time, float& timeErr) const
 {
-  // Get Average Strip position
-  float fstrip = (roll.centreOfStrip(cluster.firstStrip())).x();
-  float lstrip = (roll.centreOfStrip(cluster.lastStrip())).x();
-  float centreOfCluster = (fstrip + lstrip)/2;
-  double y = cluster.hasY() ? cluster.y() : 0;
-  Point = LocalPoint(centreOfCluster, y, 0);
+    // Get Average Strip position
+    float fstrip = (roll.centreOfStrip(cluster.firstStrip())).x();
+    float lstrip = (roll.centreOfStrip(cluster.lastStrip())).x();
+    float centreOfCluster = (fstrip + lstrip)/2;
+    double y = cluster.hasY() ? cluster.y() : 0;
+    Point = LocalPoint(centreOfCluster, y, 0);
 
-  if ( !cluster.hasY() ) {
-    error = LocalError(roll.localError((cluster.firstStrip()+cluster.lastStrip())/2.));
-  }
-  else {
-    // Use the default one for local x error
-    float ex2 = roll.localError((cluster.firstStrip()+cluster.lastStrip())/2.).xx();
-    // Maximum estimate of local y error, (distance to the boundary)/sqrt(3)
-    // which gives consistent error to the default one at y=0
-    float stripLen = roll.specificTopology().stripLength();
-    float maxDy = stripLen/2 - std::abs(cluster.y());
+    if(!cluster.hasY()) {
+        error = LocalError(roll.localError((cluster.firstStrip()+cluster.lastStrip())/2.));
+    }
+    else {
+        // Use the default one for local x error
+        float ex2 = roll.localError((cluster.firstStrip()+cluster.lastStrip())/2.).xx();
+        // Maximum estimate of local y error, (distance to the boundary)/sqrt(3)
+        // which gives consistent error to the default one at y=0
+        float stripLen = roll.specificTopology().stripLength();
+        float maxDy = stripLen/2 - std::abs(cluster.y());
 
-    // Apply x-position correction for the endcap
-    if ( roll.id().region() != 0 ) {
-      auto& topo = dynamic_cast<const TrapezoidalStripTopology&>(roll.topology());
-      double angle = topo.stripAngle((cluster.firstStrip()+cluster.lastStrip())/2.);
-      double x = centreOfCluster - y*std::tan(angle);
-      Point = LocalPoint(x, y, 0);
+        // Apply x-position correction for the endcap
+        if(roll.id().region() != 0) {
+            auto& topo = dynamic_cast<const TrapezoidalStripTopology&>(roll.topology());
+            double angle = topo.stripAngle((cluster.firstStrip()+cluster.lastStrip())/2.);
+            double x = centreOfCluster - y*std::tan(angle);
+            Point = LocalPoint(x, y, 0);
 
-      // rescale x-error by the change of local pitch
-      double scale = topo.localPitch(Point)/topo.pitch();
-      ex2 *= scale*scale;
+            // rescale x-error by the change of local pitch
+            double scale = topo.localPitch(Point)/topo.pitch();
+            ex2 *= scale*scale;
+        }
+        error = LocalError(ex2, 0, maxDy*maxDy/3.);
     }
 
-    error = LocalError(ex2, 0, maxDy*maxDy/3.);
-  }
-
-  if ( cluster.hasHighTime() ) {
-    time = cluster.highTime();
-    timeErr = cluster.highTimeRMS();
-  }
-  else {
-    time = 0;
-    timeErr = -1;
-  }
-
-  return true;
+    if(cluster.hasHighTime()) {
+        time = cluster.highTime();
+        timeErr = cluster.highTimeRMS();
+    }
+    else {
+        time = 0;
+        timeErr = -1;
+    }
+    return true;
 }
 
 bool RPCRecHitStandardAlgo::compute(const RPCRoll& roll,
@@ -126,7 +124,7 @@ bool RPCRecHitStandardAlgo::compute(const RPCRoll& roll,
                                     LocalError& error,
                                     float& time, float& timeErr)  const
 {
-  this->compute(roll,cl,Point,error,time,timeErr);
-  return true;
+    this->compute(roll,cl,Point,error,time,timeErr);
+    return true;
 }
 

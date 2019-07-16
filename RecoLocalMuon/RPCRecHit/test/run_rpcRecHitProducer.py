@@ -7,7 +7,7 @@ process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 process.GlobalTag.globaltag = "93X_upgrade2023_realistic_v5"
 
 process.maxEvents = cms.untracked.PSet(
-                      input = cms.untracked.int32(300),
+                        input = cms.untracked.int32(300),
                     )
 
 from RecoLocalMuon.RPCRecHit.rpcRecHits_cfi import rpcRecHits
@@ -22,7 +22,7 @@ rpcRecHits = cms.EDProducer("RPCRecHitProducer",
                                    thrDeltaTimeMin = cms.double(-30), # [ns] thrDeltaTimeMin_iRPC: min delta time threshold for association clusters between HR and LR;
                                    thrDeltaTimeMax = cms.double(30), # [ns] thrDeltaTimeMax_iRPC: max delta time threshold for association clusters between HR and LR;
                                    signalSpeed = cms.double(19.786302) # [cm/ns] signalSpeed_iRPC: speed of signal inside strip.
-                                 ),                                                   
+                                 ),
                                ),
                recAlgo = cms.string('RPCRecHitStandardAlgo'),
                rpcDigiLabel = cms.InputTag('muonRPCDigis'),

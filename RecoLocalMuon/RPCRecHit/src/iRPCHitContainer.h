@@ -1,5 +1,5 @@
 /*!
-\file 
+\file
 \brief File with definitions container(s) for hits.
 \authors Shchablo Konstantin (shchablo@gmail.com)
 \version 1.0
@@ -16,4 +16,4 @@
 class iRPCHit;
 typedef std::vector<iRPCHit> iRPCHitContainer;
 
-#endif // RecoLocalMuon_iRPCHitContainer_h 
+#endif // RecoLocalMuon_iRPCHitContainer_h

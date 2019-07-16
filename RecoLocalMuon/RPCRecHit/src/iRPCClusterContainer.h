@@ -1,5 +1,5 @@
 /*!
-\file 
+\file
 \brief File with definitions container(s) for clusters.
 \authors Shchablo Konstantin (shchablo@gmail.com)
 \version 1.0
@@ -16,4 +16,4 @@
 class iRPCCluster;
 typedef std::vector<iRPCCluster> iRPCClusterContainer;
 
-#endif // RecoLocalMuon_iRPCClusterContainer_h 
+#endif // RecoLocalMuon_iRPCClusterContainer_h
