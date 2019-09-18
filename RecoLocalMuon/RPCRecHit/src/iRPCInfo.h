@@ -98,6 +98,11 @@ class iRPCInfo
             \return _thrDeltaTimeMax.
         */
         float thrDeltaTimeMax();
+        /*!
+            \brief Get Y time threshold for associations clusters.
+            \return _thrDeltaTimeY.
+        */
+        float thrDeltaTimeY();
 
         /*!
             \brief Set minimum time threshold for associations clusters from the high and low radius. Depends on chamber geometry.
@@ -109,6 +114,11 @@ class iRPCInfo
             \param[in] _thrDeltaTimeMax.
         */
         void setThrDeltaTimeMax(float thrTime);
+        /*!
+            \brief Set Y time threshold for associations clusters.
+            \param[in] _thrDeltaTimeY.
+        */
+        void setThrDeltaTimeY(float thrTime);
 
         /*!
             \brief Get the speed of light in a strip.
@@ -143,6 +153,12 @@ class iRPCInfo
         */
         void isUseIRPCAlgorithm(bool is);
 
+        /*!
+            \brief Just counter.
+            \return _counts.
+        */
+        int counter();
+
     private:
 
         std::map<int, int> _HR; // !< map<channel, strip> for high radius.
@@ -153,10 +169,13 @@ class iRPCInfo
 
         float _thrDeltaTimeMin; // !< Maximum time threshold for associations clusters.
         float _thrDeltaTimeMax; // !< Minimum time threshold for associations clusters.
+        float _thrDeltaTimeY; // !< Y time threshold for associations clusters.
 
         float _speed; // !< Speed of light in a strip.
 
         bool _isAND; // !< Type of output clusters. If true - only associated clusters. If false - associated&singleSide clusters.
         bool _isUse; // !< Type of algo.
+        
+        bool _count; // !< just count..
 };
 #endif // RecoLocalMuon_iRPCInfo_h

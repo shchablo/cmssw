@@ -16,11 +16,12 @@ rpcRecHits = cms.EDProducer("RPCRecHitProducer",
                recAlgoConfig = cms.PSet(
                                  iRPCConfig = cms.PSet( # iRPC Algorithm
                                    useAlgorithm = cms.bool(True), # useIRPCAlgorithm: if true - use iRPC Algorithm;
-                                   returnOnlyAND = cms.bool(True), # returnOnlyAND: if true algorithm will return only associated clusters;
+                                   returnOnlyAND = cms.bool(False), # returnOnlyAND: if true algorithm will return only associated clusters;
                                    thrTimeHR = cms.double(2), # [ns] thrTimeHR: threshold for high radius clustering;
                                    thrTimeLR = cms.double(2), # [ns] thrTimeLR: threshold for low radius clustering;
-                                   thrDeltaTimeMin = cms.double(-30), # [ns] thrDeltaTimeMin: min delta time threshold for association clusters between HR and LR;
-                                   thrDeltaTimeMax = cms.double(30), # [ns] thrDeltaTimeMax: max delta time threshold for association clusters between HR and LR;
+                                   thrDeltaTimeMin = cms.double(-15), # [ns] thrDeltaTimeMin: min delta time threshold for association clusters between HR and LR;
+                                   thrDeltaTimeMax = cms.double(15), # [ns] thrDeltaTimeMax: max delta time threshold for association clusters between HR and LR;
+                                   thrDeltaTimeY = cms.double(0.2), # [ns] thrDeltaTimeY: position uncertainty;
                                    signalSpeed = cms.double(19.786302) # [cm/ns] signalSpeed: speed of signal inside strip.
                                  ),
                                ),

@@ -116,3 +116,18 @@ void iRPCCluster::initialize(iRPCCluster &hr, iRPCCluster &lr)
 
 void iRPCCluster::addHit(iRPCHit &hit) { _hits.push_back(hit); }
 
+bool iRPCCluster::split(iRPCCluster *cluster, int strip)
+{
+    bool isSplit = false;
+    for(auto hit = _hits.begin(); hit != _hits.end();) {
+        if(hit->strip() >= strip) {
+            cluster->addHit(*hit);
+            hit = _hits.erase(hit);
+            isSplit = true;
+        }
+       else
+            ++hit;
+    }
+    return isSplit;
+}
+

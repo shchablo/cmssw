@@ -46,14 +46,12 @@ class iRPCClusterizer
 
         /*!
             \brief The function of the association of clusters from high radius and low radius radius.
-            \param[in] isAND - if true return only associated clusters. if false associated&singleSide clusters.
-            \param[in] thrDeltaMin - Minimum time for difference between high and low radius. Related with the geometry of the chamber.
-            \param[in] thrDeltaMax - Maximum time for difference between high and low radius. Related with the geometry of the chamber.
+            \param[in] info - paramitors for clustering..
             \param[in] hr - Container of clusters correspond high radius of the chamber.
             \param[in] lr - Container of clusters correspond low radius of the chamber.
             \return Container of clusters.
         */
-        iRPCClusterContainer association(bool isAND, float thrDeltaMin,  float thrDeltaMax, iRPCClusterContainer hr, iRPCClusterContainer lr);
+        iRPCClusterContainer association(iRPCInfo &info, iRPCClusterContainer hr, iRPCClusterContainer lr);
 
         /* CMSSW */
         /*!

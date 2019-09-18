@@ -153,7 +153,7 @@ class iRPCCluster
         /*!
             \brief Compute all parametors of cluster.
             \param[in] info -  All parameters for compute cluster.
-            \return true if computed. false if something wrong $
+            \return true if computed. false if something wrong.
         */
         bool compute(iRPCInfo &info);
         /*!
@@ -168,6 +168,14 @@ class iRPCCluster
             \param[in] hit - signle hit (iRPCHit) from raw data.
         */
         void addHit(iRPCHit &hit);
+        
+        /*!
+            \brief Split existing cluster by two along the border of the strip.
+            \param[in] strip - strip number for splitting. 
+            \param[out] cluster - new cluster. 
+            \return true if splitted. false if something wrong.
+        */
+        bool split(iRPCCluster *cluster, int strip);
 
     private:
 

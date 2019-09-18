@@ -21,6 +21,7 @@ iRPCInfo::iRPCInfo()
     _thrTimeLR = std::numeric_limits<float>::max();
     _thrDeltaTimeMin = std::numeric_limits<float>::min();
     _thrDeltaTimeMax = std::numeric_limits<float>::max();
+    _count = 0;
 }
 
 iRPCInfo::~iRPCInfo()
@@ -56,9 +57,11 @@ void iRPCInfo::setThrTimeLR(float thrTime) { _thrTimeLR = thrTime; }
 
 void iRPCInfo::setThrDeltaTimeMin(float thrTime) { _thrDeltaTimeMin = thrTime; }
 void iRPCInfo::setThrDeltaTimeMax(float thrTime) { _thrDeltaTimeMax = thrTime; }
+void iRPCInfo::setThrDeltaTimeY(float thrTime) { _thrDeltaTimeY = thrTime; }
 
 float iRPCInfo::thrDeltaTimeMin() { return _thrDeltaTimeMin; }
 float iRPCInfo::thrDeltaTimeMax() { return _thrDeltaTimeMax; }
+float iRPCInfo::thrDeltaTimeY() { return _thrDeltaTimeY; }
 
 float iRPCInfo::speed() { return _speed; }
 void iRPCInfo::setSpeed(float speed) { _speed = speed; }
@@ -68,3 +71,5 @@ void iRPCInfo::isReturnOnlyAND(bool is) { _isAND = is; };
 
 bool iRPCInfo::isUseIRPCAlgorithm() { return _isUse; }
 void iRPCInfo::isUseIRPCAlgorithm(bool is) { _isUse = is; };
+
+int iRPCInfo::counter() { _count = _count + 1; return _count; };

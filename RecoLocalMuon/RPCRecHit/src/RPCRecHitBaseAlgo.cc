@@ -31,6 +31,7 @@ RPCRecHitBaseAlgo::RPCRecHitBaseAlgo(const edm::ParameterSet& config) {
    iRPCConfig.setThrTimeLR(iRPCParams.getParameter<double>("thrTimeLR")); //  conversion to float
    iRPCConfig.setThrDeltaTimeMin(iRPCParams.getParameter<double>("thrDeltaTimeMin")); // conversion to float
    iRPCConfig.setThrDeltaTimeMax(iRPCParams.getParameter<double>("thrDeltaTimeMax")); //  conversion to float
+   iRPCConfig.setThrDeltaTimeY(iRPCParams.getParameter<double>("thrDeltaTimeY")); //  conversion to float
    // test iRPC params
    //std::cout << "use: " << iRPCConfig.isUseIRPCAlgorithm() << " and: " << iRPCConfig.isReturnOnlyAND() << " speed: " << iRPCConfig.speed() <<
    //" thrHR: " << iRPCConfig.thrTimeHR() << " thrLR: " << iRPCConfig.thrTimeLR() << 
