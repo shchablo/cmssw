@@ -7,4 +7,5 @@ __init__.py
 /L1Trigger/
 /RecoLocalMuon/RPCRecHit/doxygen/
 MC_RPC_RecHit.root
+iRPC*
 .gitignore
