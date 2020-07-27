@@ -154,6 +154,28 @@ class iRPCInfo
         void isUseIRPCAlgorithm(bool is);
 
         /*!
+            \brief Return true if need only HR.
+            \return _isHR.
+        */
+        bool isOnlyHR();
+        /*!
+            \brief Set true if need only HR..
+            \param[in] is - true or false.
+        */
+        void isOnlyHR(bool is);
+        
+        /*!
+            \brief Return true if need only LR.
+            \return _isLR.
+        */
+        bool isOnlyLR();
+        /*!
+            \brief Set true if need only LR.
+            \param[in] is - true or false.
+        */
+        void isOnlyLR(bool is);
+
+        /*!
             \brief Just counter.
             \return _counts.
         */
@@ -173,6 +195,8 @@ class iRPCInfo
 
         float _speed; // !< Speed of light in a strip.
 
+        bool _isLR; // !< Return LR clusters.
+        bool _isHR; // !< Return HR clusters.
         bool _isAND; // !< Type of output clusters. If true - only associated clusters. If false - associated&singleSide clusters.
         bool _isUse; // !< Type of algo.
         

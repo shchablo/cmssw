@@ -56,6 +56,7 @@ class RPCRecHitBaseAlgo {
                        float& time, float& timeErr) const = 0;
   
   virtual bool compute(const RPCRoll& roll,
+                       iRPCInfo& info,
                        iRPCCluster& cl,
                        LocalPoint& Point,
                        LocalError& error,

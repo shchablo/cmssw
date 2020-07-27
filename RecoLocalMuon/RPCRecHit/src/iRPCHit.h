@@ -39,6 +39,7 @@ class iRPCHit
         */
         iRPCHit(int channel, int strip, float time, int bunchx);
         /*! \brief Destructor. */
+        iRPCHit(int channel, int strip, float time, int bunchx, float digiY);
         ~iRPCHit();
 
         /*!
@@ -61,6 +62,7 @@ class iRPCHit
             \return the time.
         */
         float time();
+        float digiY();
 
         /*!
             \brief Sets marker that the hit related to the high radius.
@@ -92,5 +94,6 @@ class iRPCHit
         int _strip; // !< PCB strip number.
         float _time; // !> TDC time.
         float _bunchx; // !> TDC time.
+        float _digiY; // !> TDC time.
 };
 #endif // RecoLocalMuon_iRPCHit_h

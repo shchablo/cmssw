@@ -17,7 +17,7 @@
 iRPCClusterizer::iRPCClusterizer() {}
 iRPCClusterizer::~iRPCClusterizer() {}
 
-iRPCClusterContainer iRPCClusterizer::doAction(const RPCDigiCollection::Range& digiRange, iRPCInfo& info)
+iRPCClusterContainer iRPCClusterizer::doAction(const RPCRoll& roll, const RPCDigiCollection::Range& digiRange, iRPCInfo& info)
 {
     iRPCClusterContainer clusters;
 
@@ -32,7 +32,7 @@ iRPCClusterContainer iRPCClusterizer::doAction(const RPCDigiCollection::Range& d
 
     std::map<int, std::pair<iRPCHitContainer, iRPCHitContainer>> hits; // <map<bunchX, std::pair<hr, lr>>
     auto it = hits.begin();
-
+    //std::cout << "Clusterizer: " << std::endl;
     // Fill digi (simulation)
     for(auto digi = digiRange.first; digi != digiRange.second; ++digi) {
         int bunchX = digi->bx();
@@ -40,12 +40,14 @@ iRPCClusterContainer iRPCClusterizer::doAction(const RPCDigiCollection::Range& d
         int ch = digi->strip(); int strip = digi->strip();
 
         it = hits.find(bunchX); if(it == hits.end()) hits.insert(std::make_pair(bunchX, std::make_pair(iRPCHitContainer(), iRPCHitContainer())));
-        hits.find(bunchX)->second.first.push_back(iRPCHit(ch, strip, timeHR, bunchX));
+        hits.find(bunchX)->second.first.push_back(iRPCHit(ch, strip, timeHR, bunchX, digi->coordinateY()));
         hits.find(bunchX)->second.first.back().setHR(true);
 
         if(digi->hasY()) {
-            float timeLR = timeHR-digi->coordinateY()/info.speed();
-            hits.find(bunchX)->second.second.push_back(iRPCHit(ch, strip, timeLR, bunchX));
+            float stripLen = roll.specificTopology().stripLength();
+            float timeLR = timeHR-(stripLen-2*digi->coordinateY())/info.speed();
+            //std::cout << "L:" << stripLen/2 << " y=" << digi->coordinateY() << " delta=" << timeHR - timeLR << std::endl;
+            hits.find(bunchX)->second.second.push_back(iRPCHit(ch, strip, timeLR, bunchX, digi->coordinateY()));
             hits.find(bunchX)->second.second.back().setLR(true);
             // ---
             //std::cout <<"strip=" << digi->strip() << " time=" <<  digi->time() << " position=" << digi->coordinateY() << " bx=" << digi->bx()  << " dt=" << timeHR - timeLR << std::endl;
@@ -77,10 +79,12 @@ iRPCClusterContainer iRPCClusterizer::doAction(const RPCDigiCollection::Range& d
 
         // Compute clusters parameters HR.
         for(auto cl = chr.begin(); cl != chr.end(); ++cl)
-        cl->compute(std::ref(info));
+            cl->compute(std::ref(info));
+        if(info.isOnlyHR()) return chr;
         // Compute clusters parameters LR.
         for(auto cl = clr.begin(); cl != clr.end(); ++cl)
-        cl->compute(std::ref(info));
+            cl->compute(std::ref(info));
+        if(info.isOnlyLR()) return clr;
 
         // Association between HR and LR.
         associated = association(info, chr, clr);
@@ -92,7 +96,8 @@ iRPCClusterContainer iRPCClusterizer::doAction(const RPCDigiCollection::Range& d
     for(auto cl = clusters.begin(); cl != clusters.end(); ++cl)
         cl->compute(std::ref(info));
 
-    //// Print data (test)
+    //////// Print data (test)
+    //if( clusters.size() > 1) {
     //std::cout << "\nCouple: " << clusters.size();
     //for(unsigned int i = 0; i < clusters.size(); i++) {
     //    std::cout << "\n\nfirst: " << clusters.at(i).firstStrip() << " last: " << clusters.at(i).lastStrip() << " size: " << clusters.at(i).clusterSize() << " bx: " << clusters.at(i).bx()
@@ -103,7 +108,7 @@ iRPCClusterContainer iRPCClusterizer::doAction(const RPCDigiCollection::Range& d
     //        << clusters.at(i).hits()->at(j).time() << " " << clusters.at(i).hits()->at(j).isHR() << "; ";
     //}
     //std::cout << "\n------------------------------------------------------\n";
-
+    //}
     hits.clear();
     return clusters;
 }
@@ -257,29 +262,33 @@ iRPCClusterContainer iRPCClusterizer::association(iRPCInfo &info, iRPCClusterCon
     double deltaTime = 0; std::vector<std::pair<int, double>> deltaTimes; // vector<<strip, deltaTime>>
     bool isSplitHR = false; bool isSplitLR = false;
     unsigned int sizeHR = hr.size(); unsigned int sizeLR = lr.size();
-    unsigned int h = 0, l = 0;
+    //unsigned int h = 0, l = 0;
     while(used != nClusters) {
         overlap = 0; overlaps.clear(); deltaTimes.clear();
         sizeHR = hr.size(); sizeLR = lr.size();
-        h = 0; l = 0;
-        while(h < sizeHR && l < sizeLR) {
-            overlap = 0; delta = hr.at(h).highTime() - lr.at(l).lowTime();
-            if(delta >= thrDeltaMin && delta <= thrDeltaMax) {
-                for(unsigned int ih = 0; ih < hr.at(h).hits()->size(); ih++) {
-                    for(unsigned int il = 0; il < lr.at(l).hits()->size(); il++) {
-                        if(hr.at(h).hits()->at(ih).strip() == lr.at(l).hits()->at(il).strip()) { overlap = overlap + 1; break; }
+        //h = 0; l = 0;
+        //while(h < sizeHR && l < sizeLR) {
+        for(unsigned int h = 0; h < sizeHR; h++) {
+            for(unsigned int l = 0; l < sizeLR; l++) {
+
+                overlap = 0; delta = hr.at(h).highTime() - lr.at(l).lowTime();
+                if(delta >= thrDeltaMin && delta <= thrDeltaMax) {
+                    for(unsigned int ih = 0; ih < hr.at(h).hits()->size(); ih++) {
+                        for(unsigned int il = 0; il < lr.at(l).hits()->size(); il++) {
+                            if(hr.at(h).hits()->at(ih).strip() == lr.at(l).hits()->at(il).strip()) { overlap = overlap + 1; break; }
+                        }
                     }
                 }
+                // fill info about overlaps
+                if(overlap != 0) {
+                    auto o = overlaps.find(overlap);
+                    if(o == overlaps.end())
+                        overlaps.insert(std::pair<unsigned int, std::vector<std::pair<unsigned int, unsigned int>>>
+                            (overlap, std::vector<std::pair<unsigned int, unsigned int>>()));
+                    overlaps.find(overlap)->second.push_back(std::make_pair(h, l));
+                }
+                //if(hr.at(h).hits()->size() < lr.at(l).hits()->size()) ++h; else ++l;
             }
-            // fill info about overlaps
-            if(overlap != 0) {
-                auto o = overlaps.find(overlap);
-                if(o == overlaps.end())
-                    overlaps.insert(std::pair<unsigned int, std::vector<std::pair<unsigned int, unsigned int>>>
-                        (overlap, std::vector<std::pair<unsigned int, unsigned int>>()));
-                overlaps.find(overlap)->second.push_back(std::make_pair(h, l));
-            }
-            if(hr.at(h).hits()->size() < lr.at(l).hits()->size()) ++h; else ++l;
         }
         // looking couple with lower time delta
         if(!overlaps.empty()) {

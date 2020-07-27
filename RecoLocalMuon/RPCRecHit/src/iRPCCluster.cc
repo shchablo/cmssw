@@ -59,6 +59,7 @@ float iRPCCluster::lowTimeRMS() { return hasLowTime() ? std::sqrt(std::max(0.0f,
 
 bool iRPCCluster::hasDeltaTime() { return _nDeltaTime > 0; }
 float iRPCCluster::deltaTime() { return hasDeltaTime() ? _sumDeltaTime/_nDeltaTime : -1; }
+//float iRPCCluster::deltaTime() { return this->highTime() - this->lowTime(); }
 float iRPCCluster::deltaTimeRMS() { return hasDeltaTime() ? std::sqrt(std::max(0.0f, _sumDeltaTime2*_nDeltaTime - _sumDeltaTime*_sumDeltaTime))/_nDeltaTime : -1; }
 
 bool iRPCCluster::hasY() { return _nY > 0; }
@@ -77,6 +78,7 @@ bool iRPCCluster::compute(iRPCInfo &info)
     _nHighTime = 0; _sumHighTime = 0; _sumHighTime2 = 0;
     _nLowTime = 0; _sumLowTime = 0; _sumLowTime2 = 0;
     _nDeltaTime = 0; _sumDeltaTime = 0; _sumDeltaTime2 = 0;
+    _nY = 0; _sumY = 0; _sumY2 = 0;
     if(_hits.size() > 0) _bunchx = _hits.begin()->bx();
     _fstrip =  std::numeric_limits<int>::max();
     _lstrip =  std::numeric_limits<int>::min();
@@ -98,7 +100,7 @@ bool iRPCCluster::compute(iRPCInfo &info)
             if((h->strip() == l->strip()) && h->isHR() && l->isLR()) {
                 delta = h->time() - l->time();
                 _nDeltaTime += 1; _sumDeltaTime += delta; _sumDeltaTime2 += delta*delta;
-                y = delta*speed;
+                y = (delta)/speed;
                 _nY += 1; _sumY += y; _sumY2 += y*y;
                 break;
             }

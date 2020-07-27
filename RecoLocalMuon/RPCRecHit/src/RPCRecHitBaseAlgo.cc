@@ -26,6 +26,8 @@ RPCRecHitBaseAlgo::RPCRecHitBaseAlgo(const edm::ParameterSet& config) {
    // ---
    iRPCConfig.isUseIRPCAlgorithm(iRPCParams.getParameter<bool>("useAlgorithm"));
    iRPCConfig.isReturnOnlyAND(iRPCParams.getParameter<bool>("returnOnlyAND"));
+   iRPCConfig.isOnlyHR(iRPCParams.getParameter<bool>("returnOnlyHR"));
+   iRPCConfig.isOnlyLR(iRPCParams.getParameter<bool>("returnOnlyLR"));
    iRPCConfig.setSpeed(iRPCParams.getParameter<double>("signalSpeed")); //  conversion to float
    iRPCConfig.setThrTimeHR(iRPCParams.getParameter<double>("thrTimeHR")); // conversion to float
    iRPCConfig.setThrTimeLR(iRPCParams.getParameter<double>("thrTimeLR")); //  conversion to float
@@ -49,7 +51,7 @@ edm::OwnVector<RPCRecHit> RPCRecHitBaseAlgo::reconstruct(const RPCRoll& roll,
   if(iRPCConfig.isUseIRPCAlgorithm() && roll.isIRPC()) {
     /* iRPC Clustering */
     iRPCClusterizer clizer;
-    iRPCClusterContainer cls = clizer.doAction(digiRange, iRPCConfig);
+    iRPCClusterContainer cls = clizer.doAction(roll, digiRange, iRPCConfig);
     
     for ( auto cl : cls ) {
       LocalError tmpErr;

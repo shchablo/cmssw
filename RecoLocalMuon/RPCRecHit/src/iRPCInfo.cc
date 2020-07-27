@@ -16,6 +16,7 @@ iRPCInfo::iRPCInfo()
 {
     _isAND = true;
     _isUse = true;
+    _isHR = false; _isLR = false;
     _speed = 19.786302;
     _thrTimeHR = std::numeric_limits<float>::max();
     _thrTimeLR = std::numeric_limits<float>::max();
@@ -71,5 +72,11 @@ void iRPCInfo::isReturnOnlyAND(bool is) { _isAND = is; };
 
 bool iRPCInfo::isUseIRPCAlgorithm() { return _isUse; }
 void iRPCInfo::isUseIRPCAlgorithm(bool is) { _isUse = is; };
+
+bool iRPCInfo::isOnlyHR() { return _isHR; }
+void iRPCInfo::isOnlyHR(bool is) { _isHR = is; };
+
+bool iRPCInfo::isOnlyLR() { return _isLR; }
+void iRPCInfo::isOnlyLR(bool is) { _isLR = is; };
 
 int iRPCInfo::counter() { _count = _count + 1; return _count; };

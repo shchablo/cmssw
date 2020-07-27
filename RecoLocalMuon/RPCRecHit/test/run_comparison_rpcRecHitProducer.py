@@ -11,9 +11,11 @@ parser.usage = "%prog <file> : expand this python configuration"
 inDeltaTimeY = 1
 inThrHR = 1
 inThrLR = 1
-inDeltaTimeY = args[1]
-inThrHR = args[2]
-inThrLR = args[3]
+comp = 1
+comp = args[1]
+inDeltaTimeY = args[2]
+inThrHR = args[3]
+inThrLR = args[4]
 
 process = cms.Process('ReDoRecHit')
 
@@ -41,7 +43,7 @@ process.load('Configuration.Geometry.GeometryExtended2023D41_cff')
 process.irpcRecHits = cms.EDProducer("RPCRecHitProducer",
                recAlgoConfig = cms.PSet(
                                  iRPCConfig = cms.PSet( # iRPC Algorithm
-                                   useAlgorithm = cms.bool(True), # useIRPCAlgorithm: if true - use iRPC Algorithm;
+                                   useAlgorithm = cms.bool(bool(comp)), # useIRPCAlgorithm: if true - use iRPC Algorithm;
                                    returnOnlyAND = cms.bool(True), # returnOnlyAND: if true algorithm will return only associated clusters;
                                    returnOnlyHR = cms.bool(False), # returnOnlyHR: if true algorithm will return only HR clusters;
                                    returnOnlyLR = cms.bool(False), # returnOnlyLR: if true algorithm will return only LR clusters;
@@ -94,8 +96,8 @@ process.irpcRecHits = cms.EDProducer("RPCRecHitProducer",
 input_files = cms.untracked.vstring()
 #inputPath = "/eos/cms/store/group/dpg_rpc/comm_rpc/UpgradePhaseII/iRPCClustering/SingleMu/reco_iRPConeRollSingleMu100_200k_v2/190810_102015/0000/"
 
-#inputPath = "/eos/cms/store/group/dpg_rpc/comm_rpc/Trigger/L1TDR_Samples_WithMuonReco/Mu_FlatPt2to100-pythia8-gun/Mu_FlatPt2to100-pythia8-gun_withMuonReco/0PU/0000/"
-inputPath = "/eos/cms/store/group/dpg_rpc/comm_rpc/Trigger/L1TDR_Samples_WithMuonReco/Mu_FlatPt2to100-pythia8-gun/Mu_FlatPt2to100-pythia8-gun_withMuonReco/200PU/0000/"
+inputPath = "/eos/cms/store/group/dpg_rpc/comm_rpc/Trigger/L1TDR_Samples_WithMuonReco/Mu_FlatPt2to100-pythia8-gun/Mu_FlatPt2to100-pythia8-gun_withMuonReco/0PU/0000/"
+#inputPath = "/eos/cms/store/group/dpg_rpc/comm_rpc/Trigger/L1TDR_Samples_WithMuonReco/Mu_FlatPt2to100-pythia8-gun/Mu_FlatPt2to100-pythia8-gun_withMuonReco/200PU/0000/"
 for input_file in os.listdir(inputPath):
     if "_" in input_file:
         input_files.append("file:" + os.path.join(inputPath, input_file))

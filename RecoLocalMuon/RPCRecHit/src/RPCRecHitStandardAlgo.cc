@@ -44,6 +44,7 @@ bool RPCRecHitStandardAlgo::compute(const RPCRoll& roll,
     if ( roll.id().region() != 0 ) {
       const auto& topo = dynamic_cast<const TrapezoidalStripTopology&>(roll.topology());
       const double angle = topo.stripAngle((cluster.firstStrip()+cluster.lastStrip())/2.);
+      //std::cout << "angle: " << angle << std::endl;
       const double x = centreOfCluster - y*std::tan(angle);
       Point = LocalPoint(x, y, 0);
 
@@ -64,10 +65,12 @@ bool RPCRecHitStandardAlgo::compute(const RPCRoll& roll,
     timeErr = -1;
   }
 
+  //std::cout << "y=" << y << " x=" << centreOfCluster << " time=" << time <<  std::endl;
   return true;
 }
 
 bool RPCRecHitStandardAlgo::compute(const RPCRoll& roll,
+                                    iRPCInfo& info,
                                     iRPCCluster& cluster,
                                     LocalPoint& Point,
                                     LocalError& error,
@@ -77,7 +80,9 @@ bool RPCRecHitStandardAlgo::compute(const RPCRoll& roll,
     float fstrip = (roll.centreOfStrip(cluster.firstStrip())).x();
     float lstrip = (roll.centreOfStrip(cluster.lastStrip())).x();
     float centreOfCluster = (fstrip + lstrip)/2;
-    double y = cluster.hasY() ? cluster.y() : 0;
+    float stripLenY = roll.specificTopology().stripLength();
+    double y = stripLenY/2 - info.speed()*(cluster.deltaTime()/2);
+    //std::cout << "L:" << stripLenY/2 << " delta=" << cluster.deltaTime() << "y=" << y << std::endl;
     Point = LocalPoint(centreOfCluster, y, 0);
 
     if(!cluster.hasY()) {
@@ -95,6 +100,7 @@ bool RPCRecHitStandardAlgo::compute(const RPCRoll& roll,
         if(roll.id().region() != 0) {
             auto& topo = dynamic_cast<const TrapezoidalStripTopology&>(roll.topology());
             double angle = topo.stripAngle((cluster.firstStrip()+cluster.lastStrip())/2.);
+            //std::cout << "angle: " << angle << std::endl;
             double x = centreOfCluster - y*std::tan(angle);
             Point = LocalPoint(x, y, 0);
 
@@ -113,6 +119,7 @@ bool RPCRecHitStandardAlgo::compute(const RPCRoll& roll,
         time = 0;
         timeErr = -1;
     }
+    //std::cout << "y=" << y << " x=" << centreOfCluster << " time=" << time <<  std::endl;
     return true;
 }
 

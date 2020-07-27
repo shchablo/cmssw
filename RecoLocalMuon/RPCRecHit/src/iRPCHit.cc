@@ -14,12 +14,15 @@ iRPCHit::iRPCHit(int channel, int strip, float time) :
                  _channel(channel), _strip(strip), _time(time) { _isHR = false; _isLR = false; }
 iRPCHit::iRPCHit(int channel, int strip, float time, int bunchx) :
                  _channel(channel), _strip(strip), _time(time), _bunchx(bunchx) { _isHR = false; _isLR = false; }
+iRPCHit::iRPCHit(int channel, int strip, float time, int bunchx, float digiY) :
+                 _channel(channel), _strip(strip), _time(time), _bunchx(bunchx), _digiY{digiY} { _isHR = false; _isLR = false; }
 iRPCHit::~iRPCHit() {}
 
 int iRPCHit::bx() { return _bunchx; }
 int iRPCHit::strip() { return _strip; }
 int iRPCHit::channel() { return _channel; }
 float iRPCHit::time() { return _time; }
+float iRPCHit::digiY() { return _digiY; }
 
 void iRPCHit::setHR(bool is) { _isHR = is; };
 void iRPCHit::setLR(bool is) { _isLR = is; };

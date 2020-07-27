@@ -28,6 +28,7 @@ class RPCRecHitStandardAlgo : public RPCRecHitBaseAlgo
                         LocalError& error,
                         float& time, float& timeErr) const override;
         bool compute(const RPCRoll& roll,
+                        iRPCInfo& info,
                         iRPCCluster& cluster,
                         LocalPoint& Point,
                         LocalError& error,

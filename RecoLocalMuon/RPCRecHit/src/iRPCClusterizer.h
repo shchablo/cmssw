@@ -23,6 +23,9 @@
 #include "iRPCInfo.h"
 /* CMSSW */
 #include "DataFormats/RPCDigi/interface/RPCDigiCollection.h"
+#include "Geometry/RPCGeometry/interface/RPCRoll.h"
+#include "Geometry/CommonTopologies/interface/StripTopology.h"
+#include "Geometry/CommonTopologies/interface/TrapezoidalStripTopology.h"
 /* std */
 #include <vector>
 #include <utility>
@@ -59,7 +62,8 @@ class iRPCClusterizer
             \param[in] digiRange - simulated data.
             \return Container of clusters.
         */
-        iRPCClusterContainer doAction(const RPCDigiCollection::Range& digiRange, iRPCInfo& info);
+        //iRPCClusterContainer doAction(const RPCDigiCollection::Range& digiRange, iRPCInfo& info);
+        iRPCClusterContainer doAction(const RPCRoll& roll, const RPCDigiCollection::Range& digiRange, iRPCInfo& info);
 };
 
 #endif // RecoLocalMuon_iRPCClusterClusterizer_h
