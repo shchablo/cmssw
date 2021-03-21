@@ -59,7 +59,7 @@ edm::OwnVector<RPCRecHit> RPCRecHitBaseAlgo::reconstruct(const RPCRoll& roll,
       float time = 0, timeErr = -1;
       
       // Call the compute method
-      const bool OK = this->compute(roll, cl, point, tmpErr, time, timeErr);
+      const bool OK = this->compute(roll, iRPCConfig, cl, point, tmpErr, time, timeErr);
       if (!OK) continue;
 
       // Build a new pair of 1D rechit
